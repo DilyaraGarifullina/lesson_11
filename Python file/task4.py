@@ -5,21 +5,17 @@
 
 #подсказка: можно воспользоваться сочетанием цикла while и функцией next()
 #a
-def coutdown ():
-     for number in range (10,-1,-1):
-        yield number
-        gen =coutdown()
-        for pupsik in gen :
-            print (pupsik)
-#b
- def coutdown ():
-     for messi in range (10,-1,-1):
-         yield messi
- gen =coutdown()
- i = 0
- while i <11:
-     print (next (gen ))
-     i+=1
+def coutdown():
+    for num in range(10, -1, -1):
+        yield num
+
+
+gen = coutdown()
+for num in gen:
+    print(num)
+
+while True:
+    print(next(gen))
 
 #Задание 2
 #Напишите функцию-генератор, которая выдает буквы английского алфавита от a до z. Опустошите генератор любым способом
@@ -69,6 +65,5 @@ even_numbers = [numbers   for numbers  in range(0,21,2)]
 print (*even_numbers )
 #Задание 6
 #Создайте словарь, в котором ключом будет являться число от 1 до 23, а значением - буквы английского алфавита. Решите эту задачу с помощью генератора словаря
-Holidays = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-June = {Summer : Winter for Summer,Winter in zip(range(1,27), Holidays)}
-print(June)
+alphabet_dict = {i: chr(i+96) for i in range(1, 27)}
+print(alphabet_dict)
