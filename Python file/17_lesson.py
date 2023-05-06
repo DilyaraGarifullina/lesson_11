@@ -7,6 +7,49 @@
 #Переопределите метод __str__, чтобы при вызове экземпляра он представлялся в виде: [)))))] - максимально заряженная батарея.
 #Подсказка: можете использовать методы очень похожего стандартного типа данных. Догадались какого?
 
+class Batary:
+    def __init__(self, max_charge=5):
+        self.capacity = []
+        self.max_charge = max_charge
+
+    def charge(self):
+        if len(self.capacity) < self.max_charge:
+            self.capacity.append(")")
+        else:
+            print("Аккумулятор полностью заряжен")
+
+    def discharge(self):
+        if len(self.capacity) > 0:
+            self.capacity.pop()
+        else:
+            print("Батарея разряжена")
+
+    def __str__(self):
+        return "[" + "".join(self.capacity) + "]"
+
+
+b = Batary()
+print(b)
+
+b.charge()
+print(b)
+
+b.charge()
+print(b)
+
+b.charge()
+print(b)
+
+b.charge()
+print(b)
+
+b.discharge()
+print(b)
+
+b.discharge()
+print(b)
+
+b.discharge()
 #Задание 2
 #Представьте себе очередь на кассе. К кассе подходит первый человек в очереди, а в конец очереди встает вновь пришедший. В программировании есть подобный тип данных - Queue (англ. "очередь"), основанный на принципе FIFO (англ. first in, first out «первым пришёл — первым ушёл»).
 
@@ -18,6 +61,63 @@
 #add - который добавляет имя в очередь
 #take_out убирает первого человека из списка
 #Переопределить методы __add__ , __sub__, __iadd__, __isub__ чтобы они соответствовали методам add и take_out
+
+class Queue:
+    def __init__(self):
+        self.inside = []
+
+    def __str__(self):
+        return ' => '.join(self.inside)
+
+    def add(self, name):
+        self.inside.append(name)
+
+    def take_out(self):
+        if self.inside:
+            return self.inside.pop(0)
+        else:
+            return 'Нет очереди'
+
+    def __iadd__(self, name):
+        self.add(name)
+        return self
+
+    def _isub_(self, name):
+        self.take_out()
+        return self
+
+    def _add_(self, name):
+        new_queue = Queue()
+        new_queue.inside = self.inside.copy()
+        new_queue.add(name)
+        return self
+
+    def __sub__(self, name):
+        new_queue = Queue()
+        new_queue.inside = self.inside.copy()
+        new_queue.take_out()
+        return new_queue
+
+
+queue = Queue()
+
+queue.add("Миша")
+queue.add("Катя")
+queue.add("Котик")
+print(queue)
+
+queue.take_out()
+print(queue)
+
+queue += "Миша"
+print(queue)
+
+queue += "Катя"
+print(queue)
+
+queue -= "Котик”
+print(queue)
+
 
 #Задание 3
 #a) Создайте класс Matrix
@@ -55,9 +155,30 @@
 
 #1 2 3  +  6 5 4  = 7 7 7
 #4 5 6     3 2 1    7 7 7
-#Задание 4 * (необязательное)
-#Реализуйте класс Deque - двух стороннюю очередь или колоду. Идея та же, что и у очереди, только можно вставлять элементы в центр массива убирать как слева так и справа.
 
-#Реализуйте класс Deque
-#Переопределите метод __str__
-#Реализуйте методы, который позволят вставлять элементы слева, справа, в в центр массива и аналогично удалять.
+class Matrix:
+    def __init__(self, matrix):
+        self.matrix = matrix
+        self.rows = len(matrix)
+        self.cols = len(matrix[0])
+
+    def __str__(self):
+        result = ''
+        for i in range(self.rows):
+            for j in range(self.cols):
+                result += str(self.matrix[i][j]) + ''
+            result += '\n'
+        return result
+
+    def __add__(self, other):
+        result = [[0 for j in range(self.cols)] for i in range(self.rows)]
+        for i in range(self.rows):
+            for j in range(self.cols):
+                result[i][j] = self.matrix[i][j] + other.matrix[i][j]
+        return Matrix(result)
+
+
+m1 = Matrix([[21, 5], [7, 4]])
+m2 = Matrix([[0, 3], [6, 10]])
+m3 = m1 + m2
+print(m3)
